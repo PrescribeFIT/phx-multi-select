@@ -5,7 +5,7 @@ defmodule MultiSelect.MixProject do
     [
       app:           :phoenix_multi_select,
       version:       "0.1.1",
-      elixir:        "~> 1.14",
+      elixir:        "~> 1.13",
       elixirc_paths: ["lib"],
       deps:          deps(),
       package:       package(),
