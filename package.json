@@ -1,0 +1,9 @@
+{
+  "name": "phoenix_multi_select",
+  "version": "0.1.1",
+  "description": "JS hooks for MultiSelect",
+  "main": "assets/multi-select-hook.js",
+  "repository": "git@github.com:saleyn/phx-multi-select.git",
+  "author": "Serge Aleynikov <saleyn@gmail.com>",
+  "license": "BSD-3-Clause"
+}
