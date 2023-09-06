@@ -111,10 +111,6 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
     send_update(__MODULE__, [{:id, id} | attrs])
   end
 
-  ## This setting allows to customize CSS classes. It supposed to return the
-  ## module that has `apply_css(id, key, css_classes) -> css_classes :: String.t` function.
-  @class_callback Application.compile_env(:phoenix_multi_select, :class_module) || __MODULE__
-
   ## Customize the class name shared by the outer div
   @class_prefix   Application.compile_env(:phoenix_multi_select, :class_prefix) || "phx-msel"
 
@@ -146,7 +142,10 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
       value =
         unquote(key)
         |> unquote(__MODULE__).css_fetch(unquote(add_color_class))
-      @class_callback.apply_css(unquote(id), unquote(key), value)
+
+      unquote(__MODULE__)
+      |> fetch_css_mod()
+      |> apply_css(unquote(id), unquote(key), value)
     end
   end
 
@@ -165,8 +164,17 @@ defmodule Phoenix.LiveView.Components.MultiSelect do
   def css_fetch(k, true),  do: [@css[k], @css[:colors]] |> build_class()
   def css_fetch(k, false), do: [@css[k]]                |> build_class()
 
+  ## This setting allows to customize CSS classes. It supposed to return the
+  ## module that has `apply_css(id, key, css_classes) -> css_classes :: String.t` function.
+  def fetch_css_mod(default_mod) do
+    Application.get_env(:phoenix_multi_select, :class_module, default_mod)
+  end
+
   @doc false
   def apply_css(_id, _key, value), do: value
+
+  @doc false
+  def apply_css(module, id, key, value), do: module.apply_css(id, key, value)
 
   @doc false
   defp add_alpinejs_assigns(assigns) do
